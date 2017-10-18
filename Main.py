@@ -12,5 +12,3 @@ csv_x.columns = new_header
 for columns in csv_x.columns:
     print("Coluna '"+columns+"':\n%s " % csv_x[columns].astype(float).describe())
     print("\n")
-
-print("Ola mundo")
