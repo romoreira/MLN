@@ -19,3 +19,32 @@ for columns in csv_x.columns:
     print("90 Percentil %0.2f" % csv_x[columns].astype(float).quantile(.90))
     print("Standard Deviation: %0.2f" % csv_x[columns].astype(float).std())
     print("\n")
+
+#-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
+
+new_header = csv_y.iloc[0]
+csv_y = csv_y[1:]
+csv_y.columns = new_header
+
+for columns in csv_y.columns:
+    print("Column '" + columns + "':\n")
+    print("Mean: %0.f" % csv_y[columns].astype(float).mean())
+    print("Maximum: %0.f" % csv_y[columns].astype(float).max())
+    print("Minimum: %0.f" % csv_y[columns].astype(float).min())
+    print("25 Percentil %0.2f" % csv_y[columns].astype(float).quantile(.25))
+    print("90 Percentil %0.2f" % csv_y[columns].astype(float).quantile(.90))
+    print("Standard Deviation: %0.2f" % csv_y[columns].astype(float).std())
+    print("\n")
+
+
+#(a) the number of observations with memory usage larger than 80%;
+
+print("Number of Observations with memory usage (X..memused) larger than 80%%: %.d" %csv_x[csv_x['X..memused'].astype(float) > 80]['X..memused'].count())
+
+#the average number of used TCP sockets for observations with more than 18.000 interrupts/sec;
+
+print("The average number of used TCP socket for observations with more than 18.000 interrupts/sec: %0.2f" % csv_x[csv_x['sum_intr.s'].astype(float) > 18000]['tcpsck'].astype(float).mean())
+
+#The minimum memory utilization for observations with CPU idle time lower than 20%.
+
+print(csv_x[csv_x['all_..idle'].astype(float) < 20]['X..memused'].astype(float).min())
