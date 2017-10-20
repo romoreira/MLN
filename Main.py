@@ -1,6 +1,8 @@
 # 'Author: Rodrigo Moreira'
 
+
 import pandas as pd
+import matplotlib as plt
 
 csv_x = pd.read_csv('X.csv', sep=',', header=None)
 csv_y = pd.read_csv('Y.csv', sep=',', header=None)
@@ -47,6 +49,6 @@ print("Number of Observations with memory usage (X..memused) larger than 80%%: %
 print("The average number of used TCP socket for observations with more than 18.000 interrupts/sec: %0.2f" %
       csv_x[csv_x['sum_intr.s'].astype(float) > 18000]['tcpsck'].astype(float).mean())
 
-# The minimum memory utilization for observations with CPU idle time lower than 20%.
+#The minimum memory utilization for observations with CPU idle time lower than 20%.
 
-print(csv_x[csv_x['all_..idle'].astype(float) < 20]['X..memused'].astype(float).min())
+print("The minimum memory utilization for observations with CPU idle time lower than 20%%: %0.2f (X..memused)" %csv_x[csv_x['all_..idle'].astype(float) < 20]['X..memused'].astype(float).min())
