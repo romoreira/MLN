@@ -44,11 +44,11 @@ for columns in csv_y.columns:
 print("Number of Observations with memory usage (X..memused) larger than 80%%: %.d" %
       csv_x[csv_x['X..memused'].astype(float) > 80]['X..memused'].count())
 
-# the average number of used TCP sockets for observations with more than 18.000 interrupts/sec;
+# (b) the average number of used TCP sockets for observations with more than 18.000 interrupts/sec;
 
 print("The average number of used TCP socket for observations with more than 18.000 interrupts/sec: %0.2f" %
       csv_x[csv_x['sum_intr.s'].astype(float) > 18000]['tcpsck'].astype(float).mean())
 
-#The minimum memory utilization for observations with CPU idle time lower than 20%.
+# (c) the minimum memory utilization for observations with CPU idle time lower than 20%.
 
 print("The minimum memory utilization for observations with CPU idle time lower than 20%%: %0.2f (X..memused)" %csv_x[csv_x['all_..idle'].astype(float) < 20]['X..memused'].astype(float).min())
