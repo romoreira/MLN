@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn.metrics import mean_absolute_error
+from scipy.stats import gaussian_kde
 
 csv_x = pd.read_csv('X.csv', sep=',', header=None)
 csv_y = pd.read_csv('Y.csv', sep=',', header=None)
@@ -60,8 +61,63 @@ print("The average number of used TCP socket for observations with more than 18.
 
 print("The minimum memory utilization for observations with CPU idle time lower than 20%%: %0.2f (X_memused)" %csv_x[csv_x['all_idle'].astype(float) < 20]['X_memused'].astype(float).min())
 
-#-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
 
+# Time series of percentage of idle CPU and used memory (in same plot)
+cpu = np.array(csv_x['all_idle'])
+memory = np.array(csv_x['X_memused'])
+
+plt.plot(cpu)
+plt.plot(memory)
+plt.ylabel('CPU x Memory')
+plt.show()
+
+# Density plots, histograms, and box plots of idle CPU and used memory
+
+#CPU Density
+density = gaussian_kde(cpu.astype(float))
+xs = np.linspace(1,100,200)
+density.covariance_factor = lambda : .5
+density._compute_covariance()
+plt.plot(xs,density(xs))
+plt.ylabel('Prob.')
+plt.xlabel('CPU Usage')
+plt.show()
+
+#Memory Density
+density = gaussian_kde(memory.astype(float))
+xs = np.linspace(1,100,200)
+density.covariance_factor = lambda : .5
+density._compute_covariance()
+plt.plot(xs,density(xs))
+plt.ylabel('Prob.')
+plt.xlabel('Memory Usage')
+plt.show()
+
+#CPU Histogram
+plt.hist(cpu.astype(float), 100, normed=1, facecolor='green', alpha=0.75)
+plt.axis([0, 100, 0, 0.03])
+plt.xlabel('% CPU Usage')
+plt.show()
+
+#Memory Histogram
+plt.hist(memory.astype(float), 50, normed=1, facecolor='green', alpha=0.75)
+plt.axis([0, 100, 0, 0.10])
+plt.xlabel('% Memory Usage')
+plt.show()
+
+#CPU Box Plot
+
+plt.boxplot(cpu.astype(float),1)
+plt.xlabel('% CPU Usage')
+plt.show()
+
+#Memory Box Plot
+
+plt.boxplot(memory.astype(float),1)
+plt.xlabel('% Memory Usage')
+plt.show()
+
+#-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
 #TASK II
 
 #Calculando a correlacao de ("X_memused") entre as colunas para escolher qual atributo mais impacta na
@@ -77,14 +133,11 @@ for columns in csv_y.columns:
 #Check if I am really ignoring the first column (TimeStamp) on calc of the correlation;
 #print("\nCorrelation between 'X_memused' and another columns are:  \n", csv_x.corr()['X_memused']['all_idle':])
 
-#x_train = csv_x.iloc[:-20, csv_x.columns != "TimeStamp"]
-#x_test = csv_x.iloc[-20:, csv_x.columns != "TimeStamp"]
+x_train = csv_x.iloc[:-20, csv_x.columns != "TimeStamp"]
+x_test = csv_x.iloc[-20:, csv_x.columns != "TimeStamp"]
 y_train = csv_y.DispFrames[:-20]
 y_test = csv_y.DispFrames[-20:]
 
-
-x_train = csv_x['X_memused'][:-20]
-x_test = csv_x['X_memused'][-20:]
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
 x_train = pd.DataFrame(x_train)
@@ -107,7 +160,7 @@ print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test,
 #print(y_test)
 
 # Plot outputs
-plt.scatter(x_test, y_test,  color='black')
+plt.scatter(x_test['tcpsck'], y_test,  color='black')
 plt.plot(x_test, y_pred, color='blue', linewidth=3)
 
 plt.xticks(())
