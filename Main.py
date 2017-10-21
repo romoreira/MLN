@@ -106,15 +106,15 @@ plt.xlabel('% Memory Usage')
 plt.show()
 
 #CPU Box Plot
-
-plt.boxplot(cpu.astype(float),1)
+plt.boxplot(cpu.astype(float), 1)
 plt.xlabel('% CPU Usage')
+plt.axis([0, 3, 0, 100])
 plt.show()
 
 #Memory Box Plot
-
-plt.boxplot(memory.astype(float),1)
+plt.boxplot(memory.astype(float), 1)
 plt.xlabel('% Memory Usage')
+plt.axis([0, 3, 0, 100])
 plt.show()
 
 #-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
