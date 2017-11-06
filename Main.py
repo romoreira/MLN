@@ -177,16 +177,21 @@ regr = linear_model.LinearRegression()
 regr.fit(x_train, y_train)
 y_pred = regr.predict(x_test)
 
+#---------A--------------
+
 # The coefficients
 print("Coefficients: ")
 print(regr.coef_)
 
+#---------B--------------
 # The Normalized mean Absolute Error
 print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred))
 
 print("The Accuracy Score: %0.2f " % regr.score(x_test, y_test))
 
 plt.clf()
+
+#---------C--------------
 
 plt.scatter(y_pred, y_test, color='black', alpha=0.5, marker='o')
 plt.xlabel("Tests")
@@ -200,6 +205,7 @@ plt.clf()
 #Setting y_test in numpy array format
 y_test = np.array(y_test[0])
 
+#---------D--------------
 
 #Y Test Set Density
 density = gaussian_kde(y_test)
@@ -214,3 +220,5 @@ plt.hist(y_test.astype(float), bins=1, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 100, 0, 0.1])
 plt.xlabel('% Y Test Set')
 plt.show()
+
+#---------E--------------
