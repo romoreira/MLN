@@ -10,6 +10,9 @@ import matplotlib.pyplot as plt
 from sklearn import linear_model
 from sklearn.metrics import mean_absolute_error
 from scipy.stats import gaussian_kde
+#from sklearn.model_selection import train_test_split
+from sklearn.cross_validation import train_test_split
+
 
 csv_x = pd.read_csv('X.csv', sep=',', header=None)
 csv_y = pd.read_csv('Y.csv', sep=',', header=None)
@@ -72,7 +75,7 @@ memory = np.array(csv_x['X_memused'])
 plt.plot(cpu)
 plt.plot(memory)
 plt.ylabel('CPU x Memory')
-plt.show()
+#plt.show()
 
 # Density plots, histograms, and box plots of idle CPU and used memory
 
@@ -84,7 +87,7 @@ density._compute_covariance()
 plt.plot(xs,density(xs))
 plt.ylabel('Prob.')
 plt.xlabel('CPU Usage')
-plt.show()
+#plt.show()
 
 #Memory Density
 density = gaussian_kde(memory.astype(float))
@@ -94,31 +97,31 @@ density._compute_covariance()
 plt.plot(xs,density(xs))
 plt.ylabel('Prob.')
 plt.xlabel('Memory Usage')
-plt.show()
+#plt.show()
 
 #CPU Histogram
 plt.hist(cpu.astype(float), 100, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 100, 0, 0.03])
 plt.xlabel('% CPU Usage')
-plt.show()
+#plt.show()
 
 #Memory Histogram
 plt.hist(memory.astype(float), 50, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 100, 0, 0.10])
 plt.xlabel('% Memory Usage')
-plt.show()
+#plt.show()
 
 #CPU Box Plot
 plt.boxplot(cpu.astype(float), 1)
 plt.xlabel('% CPU Usage')
 plt.axis([0, 3, 0, 100])
-plt.show()
+#plt.show()
 
 #Memory Box Plot
 plt.boxplot(memory.astype(float), 1)
 plt.xlabel('% Memory Usage')
 plt.axis([0, 3, 0, 100])
-plt.show()
+#plt.show()
 
 #-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
 #TASK II
@@ -136,11 +139,15 @@ for columns in csv_y.columns:
 #Check if I am really ignoring the first column (TimeStamp) on calc of the correlation;
 #print("\nCorrelation between 'X_memused' and another columns are:  \n", csv_x.corr()['X_memused']['all_idle':])
 
-x_train = csv_x.iloc[:-20, csv_x.columns != "TimeStamp"]
-x_test = csv_x.iloc[-20:, csv_x.columns != "TimeStamp"]
-y_train = csv_y.DispFrames[:-20]
-y_test = csv_y.DispFrames[-20:]
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30, random_state=1)
 
+#x_train = csv_x.iloc[:-30, csv_x.columns != "TimeStamp"]
+#x_test = csv_x.iloc[-30:, csv_x.columns != "TimeStamp"]
+#y_train = csv_y.DispFrames[:-30]
+#y_test = csv_y.DispFrames[-30:]
+
+print(len(x_train))
+print(len(x_test))
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
 x_train = pd.DataFrame(x_train)
@@ -163,10 +170,10 @@ print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test,
 #print(y_test)
 
 # Plot outputs
-plt.scatter(x_test['tcpsck'], y_test,  color='black')
-plt.plot(x_test, y_pred, color='blue', linewidth=3)
+#plt.scatter(x_test['tcpsck'], y_test,  color='black')
+#plt.plot(x_test, y_pred, color='blue', linewidth=3)
 
-plt.xticks(())
-plt.yticks(())
+#plt.xticks(())
+#plt.yticks(())
 
-plt.show()
+#plt.show()
