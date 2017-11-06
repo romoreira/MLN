@@ -221,4 +221,23 @@ plt.axis([0, 100, 0, 0.1])
 plt.xlabel('% Y Test Set')
 plt.show()
 
+plt.clf()
+
 #---------E--------------
+
+print(y_test)
+y_pred = pd.DataFrame(y_pred)
+y_pred = np.array(y_pred[0])
+print(y_pred)
+
+prediction_erros = y_test - y_pred
+print(prediction_erros)
+
+#Prediction Erros Density
+density = gaussian_kde(prediction_erros)
+density.covariance_factor = lambda : .25
+density._compute_covariance()
+xs = np.linspace(-10, 100, 80, endpoint=True)
+plt.plot(xs,density(xs))
+plt.xlabel('Predicion Erros Density')
+plt.show()
