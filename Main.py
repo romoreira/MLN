@@ -205,13 +205,12 @@ y_test = np.array(y_test[0])
 density = gaussian_kde(y_test)
 density.covariance_factor = lambda : .25
 density._compute_covariance()
-xs = np.linspace(1,100,10, endpoint=True)
+xs = np.linspace(1,100,80, endpoint=True)
 plt.plot(xs,density(xs))
-plt.ylabel('Prob.')
-plt.xlabel('CPU Usage')
+plt.xlabel('Video Frame Rate')
 
 #Y Test Set Histogram
 plt.hist(y_test.astype(float), bins=1, normed=1, facecolor='green', alpha=0.75)
-plt.axis([0, 100, 0, 0.10])
+plt.axis([0, 100, 0, 0.1])
 plt.xlabel('% Y Test Set')
 plt.show()
