@@ -75,7 +75,9 @@ memory = np.array(csv_x['X_memused'])
 plt.plot(cpu)
 plt.plot(memory)
 plt.ylabel('CPU x Memory')
-#plt.show()
+plt.show()
+
+plt.clf()
 
 # Density plots, histograms, and box plots of idle CPU and used memory
 
@@ -87,7 +89,9 @@ density._compute_covariance()
 plt.plot(xs,density(xs))
 plt.ylabel('Prob.')
 plt.xlabel('CPU Usage')
-#plt.show()
+plt.show()
+
+plt.clf()
 
 #Memory Density
 density = gaussian_kde(memory.astype(float))
@@ -97,31 +101,39 @@ density._compute_covariance()
 plt.plot(xs,density(xs))
 plt.ylabel('Prob.')
 plt.xlabel('Memory Usage')
-#plt.show()
+plt.show()
+
+plt.clf()
 
 #CPU Histogram
 plt.hist(cpu.astype(float), 100, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 100, 0, 0.03])
 plt.xlabel('% CPU Usage')
-#plt.show()
+plt.show()
+
+plt.clf()
 
 #Memory Histogram
 plt.hist(memory.astype(float), 50, normed=1, facecolor='green', alpha=0.75)
 plt.axis([0, 100, 0, 0.10])
 plt.xlabel('% Memory Usage')
-#plt.show()
+plt.show()
+
+plt.clf()
 
 #CPU Box Plot
 plt.boxplot(cpu.astype(float), 1)
 plt.xlabel('% CPU Usage')
 plt.axis([0, 3, 0, 100])
-#plt.show()
+plt.show()
+
+plt.clf()
 
 #Memory Box Plot
 plt.boxplot(memory.astype(float), 1)
 plt.xlabel('% Memory Usage')
 plt.axis([0, 3, 0, 100])
-#plt.show()
+plt.show()
 
 #-----------------#---------------#----------------#------------------#-----------------#--------------------#-----------------#--------------#
 #TASK II
@@ -139,15 +151,21 @@ for columns in csv_y.columns:
 #Check if I am really ignoring the first column (TimeStamp) on calc of the correlation;
 #print("\nCorrelation between 'X_memused' and another columns are:  \n", csv_x.corr()['X_memused']['all_idle':])
 
-x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30, random_state=1)
+
+
+csv_x = csv_x.iloc[:, csv_x.columns != "TimeStamp"]
+csv_y = csv_y.iloc[:, csv_y.columns != "TimeStamp"]
 
 #x_train = csv_x.iloc[:-30, csv_x.columns != "TimeStamp"]
 #x_test = csv_x.iloc[-30:, csv_x.columns != "TimeStamp"]
 #y_train = csv_y.DispFrames[:-30]
 #y_test = csv_y.DispFrames[-30:]
 
-print(len(x_train))
-print(len(x_test))
+
+csv_x = pd.DataFrame(csv_x)
+csv_y = pd.DataFrame(csv_y)
+
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30, random_state=1)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
 x_train = pd.DataFrame(x_train)
@@ -166,14 +184,34 @@ print(regr.coef_)
 # The Normalized mean Absolute Error
 print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred))
 
-#print(y_pred)
-#print(y_test)
+print("The Accuracy Score: %0.2f " % regr.score(x_test, y_test))
 
-# Plot outputs
-#plt.scatter(x_test['tcpsck'], y_test,  color='black')
-#plt.plot(x_test, y_pred, color='blue', linewidth=3)
+plt.clf()
 
-#plt.xticks(())
-#plt.yticks(())
+plt.scatter(y_pred, y_test, color='black', alpha=0.5, marker='o')
+plt.xlabel("Tests")
+plt.ylabel("Video on Demand Frame Rate")
+plt.show()
 
-#plt.show()
+
+plt.clf()
+
+
+#Setting y_test in numpy array format
+y_test = np.array(y_test[0])
+
+
+#Y Test Set Density
+density = gaussian_kde(y_test)
+density.covariance_factor = lambda : .25
+density._compute_covariance()
+xs = np.linspace(1,100,10, endpoint=True)
+plt.plot(xs,density(xs))
+plt.ylabel('Prob.')
+plt.xlabel('CPU Usage')
+
+#Y Test Set Histogram
+plt.hist(y_test.astype(float), bins=1, normed=1, facecolor='green', alpha=0.75)
+plt.axis([0, 100, 0, 0.10])
+plt.xlabel('% Y Test Set')
+plt.show()
