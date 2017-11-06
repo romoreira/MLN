@@ -241,3 +241,5 @@ xs = np.linspace(-10, 100, 80, endpoint=True)
 plt.plot(xs,density(xs))
 plt.xlabel('Predicion Erros Density')
 plt.show()
+
+#---------Part 2 - Task II ---------------------
