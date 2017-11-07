@@ -243,3 +243,15 @@ plt.xlabel('Predicion Erros Density')
 plt.show()
 
 #---------Part 2 - Task II ---------------------
+
+#---------A--------------
+
+
+x_train = pd.DataFrame(x_train)
+x_train50 = x_train.take(np.random(50))
+print(x_train50)
+#x_train100
+#x_train200
+#x_train500
+#x_train1000
+#x_train2520
