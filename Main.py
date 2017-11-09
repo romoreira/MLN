@@ -14,6 +14,24 @@ from scipy.stats import gaussian_kde
 from sklearn.cross_validation import train_test_split
 import random
 
+def nmae(y_real, y_predito):
+
+    #Set of the DataFrame configs
+    y_real = pd.DataFrame(y_real)
+    y_predito = pd.DataFrame(y_predito)
+
+    #Loop variables initializing
+    somatorio = 0.0
+    i = 0
+    for m in range(len(y_real)):
+        somatorio += abs((y_real.iloc[m] - y_predito.iloc[m]))
+        m += 1
+
+    #N. M. A. E. Accuracy Measures
+    nmae_resultado = (somatorio/m)/y_real.mean()
+
+    return nmae_resultado
+
 csv_x = pd.read_csv('X.csv', sep=',', header=None)
 csv_y = pd.read_csv('Y.csv', sep=',', header=None)
 
@@ -165,7 +183,7 @@ csv_y = csv_y.iloc[:, csv_y.columns != "TimeStamp"]
 csv_x = pd.DataFrame(csv_x)
 csv_y = pd.DataFrame(csv_y)
 
-x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30, random_state=1)
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
 x_train = pd.DataFrame(x_train)
@@ -185,7 +203,7 @@ print(regr.coef_)
 
 #---------B--------------
 # The Normalized mean Absolute Error
-print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred))
+print("The Normalized Mean Absolute Error: %0.2f " % nmae(y_test, y_pred))
 
 print("The Accuracy Score: %0.2f " % regr.score(x_test, y_test))
 
@@ -193,7 +211,7 @@ plt.clf()
 
 #---------C--------------
 
-plt.scatter(y_pred, y_test, color='black', alpha=0.5, marker='o')
+plt.scatter(y_test, y_pred, color='black', alpha=0.5, marker='o')
 plt.xlabel("Tests")
 plt.ylabel("Video on Demand Frame Rate")
 plt.show()
@@ -246,81 +264,164 @@ plt.show()
 
 #---------A--------------
 
-
-#Original
-# x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30, random_state=1)
-
 #For 50 times
-
-x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, train_size=0.30, random_state=1)
-
-# Seto novamente a configuracao de DataFrame para nao perder a dimensao
-x_train = pd.DataFrame(x_train)
-x_test = pd.DataFrame(x_test)
-y_train = pd.DataFrame(y_train)
-y_test = pd.DataFrame(y_test)
 
 nmae50 = np.array([])
 nmae100 = np.array([])
+nmae200 = np.array([])
 nmae500 = np.array([])
 nmae1000 = np.array([])
 nmae2520 = np.array([])
 
 for _ in range(50):
 
-    x = pd.DataFrame(x_train)
-    x_train50 = x.loc[random.sample(list(x.index), 50)]
-    x_train100 = x.loc[random.sample(list(x.index), 100)]
-    x_train500 = x.loc[random.sample(list(x.index), 500)]
-    x_train1000 = x.loc[random.sample(list(x.index), 1000)]
+    #---To 50 samples------
+    x_train50, x_test50, y_train50, y_test50 = train_test_split(x_train, y_train, train_size=50, test_size=50)
 
-    y = pd.DataFrame(y_train)
-    y_train50 = y.loc[random.sample(list(x.index), 50)]
-    y_train100 = y.loc[random.sample(list(x.index), 100)]
-    y_train500 = y.loc[random.sample(list(x.index), 500)]
-    y_train1000 = y.loc[random.sample(list(x.index), 1000)]
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train50 = pd.DataFrame(x_train50)
+    x_test50 = pd.DataFrame(x_test50)
+    y_train50 = pd.DataFrame(y_train50)
+    y_test50 = pd.DataFrame(y_test50)
 
     regr = linear_model.LinearRegression()
     regr.fit(x_train50, y_train50)
     y_pred50 = regr.predict(x_test)
 
-    nmae50 = np.append(nmae50, mean_absolute_error(y_test, y_pred50))
-    #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred50))
+    nmae50 = np.append(nmae50, nmae(y_test, y_pred50))
 
+    # ---To 100 samples------
+    x_train100, x_test100, y_train100, y_test100 = train_test_split(x_train, y_train, train_size=100, test_size=100)
 
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train100 = pd.DataFrame(x_train100)
+    x_test100 = pd.DataFrame(x_test100)
+    y_train100 = pd.DataFrame(y_train100)
+    y_test100 = pd.DataFrame(y_test100)
 
     regr = linear_model.LinearRegression()
     regr.fit(x_train100, y_train100)
     y_pred100 = regr.predict(x_test)
 
-    nmae100 = np.append(nmae100, mean_absolute_error(y_test, y_pred100))
-    #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred100))
+    nmae100 = np.append(nmae100, nmae(y_test, y_pred100))
+
+    # ---To 200 samples------
+    x_train200, x_test200, y_train200, y_test200 = train_test_split(x_train, y_train, train_size=200, test_size=200)
+
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train200 = pd.DataFrame(x_train200)
+    x_test200 = pd.DataFrame(x_test200)
+    y_train200 = pd.DataFrame(y_train200)
+    y_test200 = pd.DataFrame(y_test200)
+
+    regr = linear_model.LinearRegression()
+    regr.fit(x_train200, y_train200)
+    y_pred200 = regr.predict(x_test)
+
+    nmae200 = np.append(nmae100, nmae(y_test, y_pred200))
+
+    # ---To 500 samples------
+    x_train500, x_test500, y_train500, y_test500 = train_test_split(x_train, y_train, train_size=500, test_size=500)
+
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train500 = pd.DataFrame(x_train500)
+    x_test500 = pd.DataFrame(x_test500)
+    y_train500 = pd.DataFrame(y_train500)
+    y_test500 = pd.DataFrame(y_test500)
 
     regr = linear_model.LinearRegression()
     regr.fit(x_train500, y_train500)
     y_pred500 = regr.predict(x_test)
 
-    nmae500 = np.append(nmae500, mean_absolute_error(y_test, y_pred500))
+    nmae500 = np.append(nmae500, nmae(y_test, y_pred500))
 
-    #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred500))
+    # ---To 1000 samples------
+    x_train1000, x_test1000, y_train1000, y_test1000 = train_test_split(x_train, y_train, train_size=1000, test_size=1000)
+
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train1000 = pd.DataFrame(x_train1000)
+    x_test1000 = pd.DataFrame(x_test1000)
+    y_train1000 = pd.DataFrame(y_train1000)
+    y_test1000 = pd.DataFrame(y_test1000)
 
     regr = linear_model.LinearRegression()
     regr.fit(x_train1000, y_train1000)
     y_pred1000 = regr.predict(x_test)
 
-    nmae1000 = np.append(nmae1000, mean_absolute_error(y_test, y_pred1000))
+    nmae1000 = np.append(nmae1000, nmae(y_test, y_pred1000))
 
-    #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred1000))
+    # ---To 2520 samples (Complete sub-sets)------
+    x_train2520, x_test1080, y_train2520, y_test1080 = train_test_split(csv_x, csv_y, test_size=0.30)
+
+    # Seto novamente a configuracao de DataFrame para nao perder a dimensao
+    x_train2520 = pd.DataFrame(x_train2520)
+    x_test1080 = pd.DataFrame(x_test1080)
+    y_train2520 = pd.DataFrame(y_train2520)
+    y_test1080 = pd.DataFrame(y_test1080)
+
+    regr = linear_model.LinearRegression()
+    regr.fit(x_train2520, y_train2520)
+    y_pred1080 = regr.predict(x_test1080)
+
+    nmae2520 = np.append(nmae2520, nmae(y_test1080, y_pred1080))
+
+    # x = pd.DataFrame(x_train)
+    # x_train50 = x.loc[random.sample(list(x.index), 50)]
+    # x_train100 = x.loc[random.sample(list(x.index), 100)]
+    # x_train500 = x.loc[random.sample(list(x.index), 500)]
+    # x_train1000 = x.loc[random.sample(list(x.index), 1000)]
+    #
+    # y = pd.DataFrame(y_train)
+    # y_train50 = y.loc[random.sample(list(x.index), 50)]
+    # y_train100 = y.loc[random.sample(list(x.index), 100)]
+    # y_train500 = y.loc[random.sample(list(x.index), 500)]
+    # y_train1000 = y.loc[random.sample(list(x.index), 1000)]
+    #
+    # regr = linear_model.LinearRegression()
+    # regr.fit(x_train50, y_train50)
+    # y_pred50 = regr.predict(x_test)
+    #
+    # nmae50 = np.append(nmae50, mean_absolute_error(y_test, y_pred50))
+    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred50))
+    #
+    #
+    #
+    # regr = linear_model.LinearRegression()
+    # regr.fit(x_train100, y_train100)
+    # y_pred100 = regr.predict(x_test)
+    #
+    # nmae100 = np.append(nmae100, mean_absolute_error(y_test, y_pred100))
+    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred100))
+    #
+    # regr = linear_model.LinearRegression()
+    # regr.fit(x_train500, y_train500)
+    # y_pred500 = regr.predict(x_test)
+    #
+    # nmae500 = np.append(nmae500, mean_absolute_error(y_test, y_pred500))
+    #
+    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred500))
+    #
+    # regr = linear_model.LinearRegression()
+    # regr.fit(x_train1000, y_train1000)
+    # y_pred1000 = regr.predict(x_test)
+    #
+    # nmae1000 = np.append(nmae1000, mean_absolute_error(y_test, y_pred1000))
+    #
+    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred1000))
 
 print(nmae50)
 print(nmae100)
+print(nmae200)
 print(nmae500)
 print(nmae1000)
+print(nmae2520)
 
-#NMAE for Samples size of 50
-plt.boxplot(nmae50, 1)
-plt.xlabel('N. M. A. E. 50')
-plt.axis([0, 1.5, 0, 100])
+data_to_plot = [nmae50, nmae100, nmae200, nmae500, nmae1000, nmae2520]
+
+#NMAE for all Samples
+plt.boxplot(data_to_plot)
+plt.xlabel('N. M. A. E. for All Samples')
+plt.xticks([1, 2, 3, 4, 5, 6], ['50', '100', '200', '500', '1000', '2520'])
 plt.show()
 
 #     #Seto novamente a configuracao de DataFrame para nao perder a dimensao
