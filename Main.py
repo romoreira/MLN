@@ -361,33 +361,29 @@ plt.show()
 
 #---------Part 2 - Task II ---------------------
 
-csv_x_2 = pd.read_csv('X_2.csv', sep=',', header=None)
-csv_y_2 = pd.read_csv('Y_2.csv', sep=',', header=None)
+csv_x = pd.read_csv('X.csv', sep=',', header=None)
+csv_y = pd.read_csv('Y.csv', sep=',', header=None)
 
 # Esse trecho de codigo retira a primeira linha do DataFrame (que contem os nomes das colunas), cria uma novo DataFrame sem essa primeira linha,
 #depois adiciona as colunas na forma de indices
-new_header = csv_x_2.iloc[0]
-csv_x_2 = csv_x_2[1:]
-csv_x_2.columns = new_header
+new_header = csv_x.iloc[0]
+csv_x = csv_x[1:]
+csv_x.columns = new_header
 
-new_header = csv_y_2.iloc[0]
-csv_y_2 = csv_y_2[1:]
-csv_y_2.columns = new_header
+new_header = csv_y.iloc[0]
+csv_y = csv_y[1:]
+csv_y.columns = new_header
 
 #print(csv_x_2)
 #print(csv_y_2)
 
-for columns in csv_x_2.columns:
-    csv_x_2[columns] = csv_x_2[columns].convert_objects(convert_numeric=True)#Transformando os dados do DataFrameX para tipo Numerico
+for columns in csv_x.columns:
+    csv_x[columns] = csv_x[columns].convert_objects(convert_numeric=True)#Transformando os dados do DataFrameX para tipo Numerico
 
-for columns in csv_y_2.columns:
-    csv_y_2[columns] = csv_y_2[columns].convert_objects(convert_numeric=True)#Transformando os dados do DataFrameY para tipo Numerico
+for columns in csv_y.columns:
+    csv_y[columns] = csv_y[columns].convert_objects(convert_numeric=True)#Transformando os dados do DataFrameY para tipo Numerico
 
-
-csv_x_2 = pd.DataFrame(csv_x_2)
-csv_y_2 = pd.DataFrame(csv_y_2)
-
-x_train, x_test, y_train, y_test = train_test_split(csv_x_2, csv_y_2, test_size=0.30)
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
 x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
