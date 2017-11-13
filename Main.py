@@ -390,6 +390,7 @@ x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_idle','X_memused','pro
 x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
 y_train = pd.DataFrame(y_train, columns=['TimeStamp','DispFrames'])
 y_test = pd.DataFrame(y_test, columns=['TimeStamp','DispFrames'])
+#
 
 
 
