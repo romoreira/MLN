@@ -38,7 +38,6 @@ def scatter_plot(y_test, y_predict, y_predict_naive):
 
     plt.legend((a, b, c), ('Naive-based Predictions', 'Default Predictions', 'Target Values'), scatterpoints=1, loc='lower left', ncol=3, fontsize=10.8)
 
-
     plt.show()
 
 def naive_method_predict(x_train_naive, y_train_naive, x_test_naive):
