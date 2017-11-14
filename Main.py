@@ -228,7 +228,6 @@ plt.clf()
 #BoxPlot CPU and Memory
 cpu = np.array(cpu.astype(float))
 memory = np.array(memory.astype(float))
-print(cpu)
 data_to_plot = [cpu, memory]
 plt.boxplot(data_to_plot)
 plt.xlabel('Box Plot of Idle CPU and Memory')
@@ -302,7 +301,7 @@ print(regr.coef_)
 
 # The Normalized mean Absolute Error
 #Regression Method
-print("The Normalized Mean Absolute Error (Regression Method): %0.2f " % nmae(y_test, y_pred))
+print("The Normalized Mean Absolute Error (Regression Method): %0.4f " % nmae(y_test, y_pred))
 
 #Naive Method
 csv_x = pd.DataFrame(csv_x)
@@ -312,7 +311,7 @@ y_test_naive = pd.DataFrame(y_test_naive, columns=['TimeStamp','DispFrames'])
 y_pred_naive = naive_method_predict(x_train_naive, y_train_naive, x_test_naive)
 
 
-print("The Normalized Mean Absolute Error (Naive Prediction): %0.2f " % nmae(y_test_naive, y_pred_naive))
+print("The Normalized Mean Absolute Error (Naive Prediction): %0.4f " % nmae(y_test_naive, y_pred_naive))
 
 #---------C--------------
 #Scatter Plot - Regression Method and Regression (Naive-based) Method
@@ -503,6 +502,6 @@ data_to_plot = [nmae50, nmae100, nmae200, nmae500, nmae1000, nmae2520]
 
 #NMAE for all Samples
 plt.boxplot(data_to_plot)
-plt.xlabel('N. M. A. E. for All Samples')
+plt.xlabel('N. M. A. E. for all size of instances')
 plt.xticks([1, 2, 3, 4, 5, 6], ['50', '100', '200', '500', '1000', '2520'])
 plt.show()
