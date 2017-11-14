@@ -94,6 +94,8 @@ def nmae(y_real, y_predito):
     #Loop variables initializing
     somatorio = 0.0
     m = 0
+    media = 0
+    nmae_resultado = 0
     for m in range(len(y_real)):
         somatorio += abs((y_real.iloc[m][1] - y_predito.iloc[m]))
         m += 1
@@ -449,7 +451,7 @@ for _ in range(50):
     regr.fit(x_train200.iloc[:, x_train200.columns != "TimeStamp"], y_train200.iloc[:, y_train200.columns != "TimeStamp"])
     y_pred200 = regr.predict(x_test.iloc[:, x_test.columns != "TimeStamp"])
 
-    nmae200 = np.append(nmae100, nmae(y_test, y_pred200))
+    nmae200 = np.append(nmae200, nmae(y_test, y_pred200))
 
     # ---To 500 samples------
     x_train500, x_test500, y_train500, y_test500 = train_test_split(x_train, y_train, train_size=500, test_size=500)
@@ -482,70 +484,20 @@ for _ in range(50):
     nmae1000 = np.append(nmae1000, nmae(y_test, y_pred1000))
 
     # ---To 2520 samples (Complete sub-sets)------
-    x_train2520, x_test1080, y_train2520, y_test1080 = train_test_split(csv_x, csv_y, test_size=0.30)
+#    x_train2520, x_test1080, y_train2520, y_test1080 = train_test_split(csv_x, csv_y, test_size=0.30)
 
     # Seto novamente a configuracao de DataFrame para nao perder a dimensao - 2520
-    x_train2520 = pd.DataFrame(x_train2520, columns = ['TimeStamp', 'all_idle', 'X_memused', 'proc.s', 'cswch.s', 'file.nr', 'sum_intr.s', 'ldavg.1','tcpsck', 'pgfree.s'])
-    x_test1080 = pd.DataFrame(x_test1080, columns = ['TimeStamp', 'all_idle', 'X_memused', 'proc.s', 'cswch.s', 'file.nr', 'sum_intr.s', 'ldavg.1','tcpsck', 'pgfree.s'])
-    y_train2520 = pd.DataFrame(y_train2520, columns = ['TimeStamp', 'DispFrames'])
-    y_test1080 = pd.DataFrame(y_test1080, columns = ['TimeStamp', 'DispFrames'])
+#    x_train2520 = pd.DataFrame(x_train2520, columns = ['TimeStamp', 'all_idle', 'X_memused', 'proc.s', 'cswch.s', 'file.nr', 'sum_intr.s', 'ldavg.1','tcpsck', 'pgfree.s'])
+#    x_test1080 = pd.DataFrame(x_test1080, columns = ['TimeStamp', 'all_idle', 'X_memused', 'proc.s', 'cswch.s', 'file.nr', 'sum_intr.s', 'ldavg.1','tcpsck', 'pgfree.s'])
+#    y_train2520 = pd.DataFrame(y_train2520, columns = ['TimeStamp', 'DispFrames'])
+#    y_test1080 = pd.DataFrame(y_test1080, columns = ['TimeStamp', 'DispFrames'])
 
     regr = linear_model.LinearRegression()
-    regr.fit(x_train2520.iloc[:, x_train2520.columns != "TimeStamp"], y_train2520.iloc[:, y_train2520.columns != "TimeStamp"])
-    y_pred1080 = regr.predict(x_test1080.iloc[:, x_test1080.columns != "TimeStamp"])
+    regr.fit(x_train.iloc[:, x_train.columns != "TimeStamp"], y_train.iloc[:, y_train.columns != "TimeStamp"])
+    y_pred1080 = regr.predict(x_test.iloc[:, x_test.columns != "TimeStamp"])
 
-    nmae2520 = np.append(nmae2520, nmae(y_test1080, y_pred1080))
+    nmae2520 = np.append(nmae2520, nmae(y_test, y_pred1080))
 
-    # x = pd.DataFrame(x_train)
-    # x_train50 = x.loc[random.sample(list(x.index), 50)]
-    # x_train100 = x.loc[random.sample(list(x.index), 100)]
-    # x_train500 = x.loc[random.sample(list(x.index), 500)]
-    # x_train1000 = x.loc[random.sample(list(x.index), 1000)]
-    #
-    # y = pd.DataFrame(y_train)
-    # y_train50 = y.loc[random.sample(list(x.index), 50)]
-    # y_train100 = y.loc[random.sample(list(x.index), 100)]
-    # y_train500 = y.loc[random.sample(list(x.index), 500)]
-    # y_train1000 = y.loc[random.sample(list(x.index), 1000)]
-    #
-    # regr = linear_model.LinearRegression()
-    # regr.fit(x_train50, y_train50)
-    # y_pred50 = regr.predict(x_test)
-    #
-    # nmae50 = np.append(nmae50, mean_absolute_error(y_test, y_pred50))
-    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred50))
-    #
-    #
-    #
-    # regr = linear_model.LinearRegression()
-    # regr.fit(x_train100, y_train100)
-    # y_pred100 = regr.predict(x_test)
-    #
-    # nmae100 = np.append(nmae100, mean_absolute_error(y_test, y_pred100))
-    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred100))
-    #
-    # regr = linear_model.LinearRegression()
-    # regr.fit(x_train500, y_train500)
-    # y_pred500 = regr.predict(x_test)
-    #
-    # nmae500 = np.append(nmae500, mean_absolute_error(y_test, y_pred500))
-    #
-    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred500))
-    #
-    # regr = linear_model.LinearRegression()
-    # regr.fit(x_train1000, y_train1000)
-    # y_pred1000 = regr.predict(x_test)
-    #
-    # nmae1000 = np.append(nmae1000, mean_absolute_error(y_test, y_pred1000))
-    #
-    # #print("The Normalized Mean Absolute Error: %0.2f " % mean_absolute_error(y_test, y_pred1000))
-
-#print(nmae50)
-#print(nmae100)
-#print(nmae200)
-#print(nmae500)
-#print(nmae1000)
-#print(nmae2520)
 
 data_to_plot = [nmae50, nmae100, nmae200, nmae500, nmae1000, nmae2520]
 
