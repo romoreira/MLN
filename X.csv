@@ -1,4 +1,4 @@
-"TimeStamp","all_idle","X_memused","proc.s","cswch.s","file.nr","sum_intr.s","ldavg.1","tcpsck","pgfree.s"
+"TimeStamp","all_..idle","X..memused","proc.s","cswch.s","file.nr","sum_intr.s","ldavg.1","tcpsck","pgfree.s"
 1409264779,0,73.03,47,62683,2496,15802,64.17,50,81151
 1409264780,0,73.04,3,67595,2496,16139,64.17,50,78868
 1409264781,0,73.05,0,69495,2496,15753,66.15,49,79990
