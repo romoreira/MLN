@@ -59,8 +59,8 @@ csv_x, csv_y = get_dataframe()
 x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
-x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
-x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
 y_train = pd.DataFrame(y_train, columns=['TimeStamp','DispFrames'])
 y_test = pd.DataFrame(y_test, columns=['TimeStamp','DispFrames'])
 
@@ -149,8 +149,8 @@ csv_x, csv_y = get_dataframe()
 x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
-x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
-x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
 y_train = pd.DataFrame(y_train, columns=['TimeStamp','DispFrames'])
 y_test = pd.DataFrame(y_test, columns=['TimeStamp','DispFrames'])
 
@@ -224,8 +224,8 @@ csv_x, csv_y = get_dataframe()
 x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #Seto novamente a configuracao de DataFrame para nao perder a dimensao
-x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
-x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_idle','X_memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_train = pd.DataFrame(x_train, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
+x_test = pd.DataFrame(x_test, columns=['TimeStamp','all_..idle','X..memused','proc.s','cswch.s','file.nr','sum_intr.s','ldavg.1','tcpsck','pgfree.s'])
 y_train = pd.DataFrame(y_train, columns=['TimeStamp','DispFrames'])
 y_test = pd.DataFrame(y_test, columns=['TimeStamp','DispFrames'])
 
