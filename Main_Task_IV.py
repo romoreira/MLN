@@ -11,6 +11,9 @@ from sklearn.cross_validation import train_test_split
 from sklearn.feature_selection import RFE
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
+from scipy.stats import pearsonr
+import math
+import cmath
 
 def fit_interleaves_features(x_train, y_train, x_test):
     regr = linear_model.LinearRegression()
@@ -108,10 +111,10 @@ def binarize_y(y):
 
 
 # ---------Task III ---------------------
+#_______________________________________________
+#---------Question 2----------------------------
+#_______________________________________________
 
-csv_x, csv_y = get_dataframe()
-
-x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
 
 #y_train = column_or_1d(y_train, warn=False)
 y_train = column_or_1d(y_train.iloc[:, y_train.columns != "TimeStamp"], warn=False)
@@ -174,13 +177,88 @@ while i < len(features):
     i += 1
     
 #NAMAE Histogram
-plt.hist(nmae_array, 6, normed=1, facecolor='green', alpha=0.75)
+plt.hist(nmae_array, 4, normed=1, facecolor='green', alpha=0.75)
 plt.xlabel('% NMAE')
 plt.title("NMAE for all Sets")
 plt.show()
 
 
+# ---------Task III ---------------------
+
+csv_x, csv_y = get_dataframe()
+
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
+
 #_______________________________________________
 #---------Question 3----------------------------
 #_______________________________________________
 
+features= np.array([])
+for column in x_train:
+    features= np.append(features,column)
+ 
+correlation_array = np.float32([])
+i = 1
+while i < len(features):
+    x_column = np.array(x_train[features[i]])
+    y_train = y_train.iloc[:, y_train.columns == 'DispFrames']
+    y = np.array(y_train)
+    y_values = column_or_1d(y, warn=False)
+  
+    #print(pearsonr(x_column.astype(float), y_values.astype(float)))
+    #print(pearsonr(x_column.astype(float), y_values.astype(float))[0])
+    correlation_array = np.append(correlation_array, pearsonr(x_column.astype(float), y_values.astype(float))[0].astype(float))
+    i += 1
+
+temp = np.column_stack((features[1:],correlation_array))
+correlation_set = pd.DataFrame(temp,columns=['Feature','Correlation'])
+#print(correlation_set)
+
+i = 0
+correlation_square = np.float32([])
+while i < len(correlation_set):
+    correlation_square = np.append(correlation_square, float(correlation_set.loc[i, 'Correlation'])*float(correlation_set.loc[i, 'Correlation']))
+    i += 1
+
+correlation_set['R2'] = pd.to_numeric(correlation_square)
+#print(correlation_set)
+correlation_set = correlation_set.sort_values(by='R2', ascending=False)
+print(correlation_set)
+
+features_list = list(correlation_set['Feature'])
+#print(features_list)
+
+x_train = x_train[features_list]
+x_test = x_test[features_list]
+
+x_train_bkp = x_train
+y_train_bkp = y_train
+x_test_bkp = x_test
+y_test_bkp = y_test
+
+#Crio um numpy array para armazenar as NMAE para posteriormente plotar o Histogram
+nmae_array = np.array([])
+
+#print(x_train.iloc[:,0:1])
+
+#print(features_list)
+
+i = 1
+while i <= len(features_list):
+
+    x_train = x_train.iloc[:, 0:i]
+    x_test = x_test.iloc[:, 0:i]
+    
+    nmae_array = np.append(nmae_array, nmae(y_test, fit_interleaves_features(x_train, y_train, x_test)))
+        
+    ##print(nmae_array)
+        
+    print("NMAE for %s is: %.7f" % (features_list[:i], nmae(y_test, fit_interleaves_features(x_train, y_train, x_test))))
+    j += 1
+    x_train = x_train_bkp
+    x_test = x_test_bkp
+    i += 1
+    
+plt.plot(['K1','K1..2','K1..3','K1..4','K1..5','K1..6','K1..7','K1..8','K1..9'], nmae_array, '-g*')
+plt.axis([0, 9, 0, 0.12])
+plt.show()
