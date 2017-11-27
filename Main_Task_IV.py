@@ -110,8 +110,13 @@ def binarize_y(y):
     return sla_conformance_y
 
 
-# ---------Task III ---------------------
+# ---------Task III ----------------------------
 #_______________________________________________
+
+
+csv_x, csv_y = get_dataframe()
+x_train, x_test, y_train, y_test = train_test_split(csv_x, csv_y, test_size=0.30)
+
 #---------Question 2----------------------------
 #_______________________________________________
 
@@ -260,5 +265,4 @@ while i <= len(features_list):
     i += 1
     
 plt.plot(['K1','K1..2','K1..3','K1..4','K1..5','K1..6','K1..7','K1..8','K1..9'], nmae_array, '-g*')
-plt.axis([0, 9, 0, 0.12])
 plt.show()
